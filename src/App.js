@@ -13,6 +13,7 @@ import AccountPage from "./components/AccountPage";
 import Logo from "./components/Logo";
 import ThemeToggle from "./components/ThemeToggle";
 import "./index.css";
+import { HashRouter as Router } from "react-router-dom";
 
 function AppContent() {
   const { user, isSignedIn } = useUser();
