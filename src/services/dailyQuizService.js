@@ -10,7 +10,7 @@ class DailyQuizService {
   // Load questions from the main IQ test dataset
   async loadQuestions() {
     try {
-      const response = await fetch('/IQ_Test_Questions.json');
+      const response = await fetch(`${process.env.PUBLIC_URL || ''}/IQ_Test_Questions.json`);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
       this.questions = this.normalizeQuestions(data);

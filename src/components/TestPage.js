@@ -34,11 +34,27 @@ const TestPage = ({ onComplete, questions: providedQuestions, category, isPracti
       setQuestions(providedQuestions);
       setIsLoading(false);
     } else {
-      // Wait for questions to load
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Wait for questions to load from the service
+      let attempts = 0;
+      const maxAttempts = 10;
       
-      const testQuestions = testService.generateTest(userId, 15);
-      setQuestions(testQuestions);
+      while (attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        if (testService.questions.length > 0) {
+          const testQuestions = testService.generateTest(userId, 15);
+          setQuestions(testQuestions);
+          setIsLoading(false);
+          return;
+        }
+        
+        attempts++;
+      }
+      
+      // If questions still haven't loaded, use fallback
+      console.warn('Using fallback questions due to loading timeout');
+      const fallbackQuestions = testService.getFallbackQuestions().slice(0, 15);
+      setQuestions(fallbackQuestions);
       setIsLoading(false);
     }
   }, [userId, isPractice, providedQuestions]);

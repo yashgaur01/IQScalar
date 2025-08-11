@@ -9,7 +9,7 @@ class PracticeService {
   // Load practice questions from JSON file
   async loadPracticeQuestions() {
     try {
-      const response = await fetch('/Practice_Questions.json');
+      const response = await fetch(`${process.env.PUBLIC_URL || ''}/Practice_Questions.json`);
       if (!response.ok) {
         throw new Error('Failed to load practice questions');
       }
